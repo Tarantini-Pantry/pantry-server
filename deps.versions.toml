@@ -7,8 +7,7 @@ jackson = "2.14.2"
 hoplite = "2.7.4"
 cohort = "1.7.3"
 micrometer = "1.10.6"
-
-dockerBaseImage = "amazoncorretto:17.0.8-alpine"
+jbcrypt = "0.4"
 
 [libraries]
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
@@ -60,6 +59,8 @@ cohort-micrometer = { module = "com.sksamuel.cohort:cohort-micrometer", version.
 
 micrometer-core = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
 micrometer-registry-datadog = { module = "io.micrometer:micrometer-registry-datadog", version.ref = "micrometer" }
+
+jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 
 postgresql = { module = "org.postgresql:postgresql", version = "42.6.0" }
 hikari = { module = "com.zaxxer:HikariCP", version = "5.0.1" }
@@ -116,3 +117,4 @@ ktor-server = [
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }

@@ -1,0 +1,35 @@
+name: Build and publish manually
+
+on:
+   workflow_dispatch:
+      inputs:
+         version:
+            description: 'build version'
+            required: true
+
+jobs:
+   build_and_push:
+      runs-on: ubuntu-latest
+      steps:
+         -  name: Checkout the repo
+            uses: actions/checkout@v2
+         -  name: Setup Java
+            uses: actions/setup-java@v3
+            with:
+               distribution: "temurin"
+               java-version: "17"
+         -  name: Executre Gradle Build
+            uses: gradle/gradle-build-action@v2
+            with:
+               arguments: shadowJar -Pversion=${{ github.event.inputs.version }}
+         -  name: Deploy To EC2
+            uses: easingthemes/ssh-deploy@main
+            with:
+               SOURCE: "app/build/libs/pantry-server-${{ github.event.inputs.version }}.jar"
+               SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+               REMOTE_HOST: ${{ secrets.HOST_DNS }}
+               REMOTE_USER: ${{ secrets.USERNAME }}
+               TARGET: ${{ secrets.TARGET_DIR }}
+               SCRIPT_AFTER: |
+                  runAppHeadless ${{ github.events.inputs.version }}
+                  nohup java -jar /home/ubuntu/apps/pantry-server-${{ github.event.inputs.version }}.jar &

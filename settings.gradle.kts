@@ -8,7 +8,7 @@ include(
 
 pluginManagement {
    plugins {
-      id("com.bmuschko.docker-java-application") version ("9.3.1")
+      id("io.ktor.plugin") version "2.3.4"
    }
 }
 

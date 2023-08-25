@@ -4,6 +4,8 @@ import com.sksamuel.hoplite.env.Environment
 import com.tarantini.pantry.item.ItemDatastore
 import com.tarantini.pantry.datastore.createDataSource
 import com.tarantini.pantry.item.ItemService
+import com.tarantini.pantry.user.UserDatastore
+import com.tarantini.pantry.user.UserService
 import com.zaxxer.hikari.HikariDataSource
 import io.micrometer.core.instrument.MeterRegistry
 import mu.KotlinLogging
@@ -25,11 +27,16 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
    val itemDatastore = ItemDatastore(ds)
    val itemService = ItemService(itemDatastore)
 
+   val userDatastore = UserDatastore(ds)
+   val userService = UserService(userDatastore)
+
    return Dependencies(
       registry,
       ds,
       itemDatastore,
       itemService,
+      userDatastore,
+      userService
    )
 }
 
@@ -44,4 +51,6 @@ data class Dependencies(
    val ds: HikariDataSource,
    val itemDatastore: ItemDatastore,
    val itemService: ItemService,
+   val userDatastore: UserDatastore,
+   val userService: UserService
 )

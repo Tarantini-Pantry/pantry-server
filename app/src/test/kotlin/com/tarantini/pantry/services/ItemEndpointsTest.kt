@@ -40,7 +40,7 @@ class ItemEndpointsTest : FunSpec() {
             routing {
                itemEndpoints(service)
             }
-            val resp = client.get("/v1/item")
+            val resp = client.get("/v1/items")
             resp.status shouldBe HttpStatusCode.OK
          }
       }
