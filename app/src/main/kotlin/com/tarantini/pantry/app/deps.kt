@@ -1,16 +1,14 @@
 package com.tarantini.pantry.app
 
 import com.sksamuel.hoplite.env.Environment
-import com.tarantini.pantry.item.ItemDatastore
 import com.tarantini.pantry.datastore.createDataSource
+import com.tarantini.pantry.item.ItemDatastore
 import com.tarantini.pantry.item.ItemService
 import com.tarantini.pantry.user.UserDatastore
 import com.tarantini.pantry.user.UserService
+import com.tarantini.pantry.userItem.UserItemDatastore
 import com.zaxxer.hikari.HikariDataSource
 import io.micrometer.core.instrument.MeterRegistry
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger { }
 
 /**
  * Creates all the dependencies used by this service wrapped in a [Dependencies] object.
@@ -28,7 +26,8 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
    val itemService = ItemService(itemDatastore)
 
    val userDatastore = UserDatastore(ds)
-   val userService = UserService(userDatastore)
+   val userItemDatastore = UserItemDatastore(ds)
+   val userService = UserService(userDatastore, userItemDatastore)
 
    return Dependencies(
       registry,
@@ -36,7 +35,8 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
       itemDatastore,
       itemService,
       userDatastore,
-      userService
+      userService,
+      userItemDatastore
    )
 }
 
@@ -52,5 +52,6 @@ data class Dependencies(
    val itemDatastore: ItemDatastore,
    val itemService: ItemService,
    val userDatastore: UserDatastore,
-   val userService: UserService
+   val userService: UserService,
+   val userItemDatastore: UserItemDatastore
 )

@@ -33,3 +33,6 @@ CREATE TABLE user_item
    measurement VARCHAR(100)     NOT NULL,
    value       DOUBLE PRECISION NOT NULL
 );
+
+CREATE UNIQUE INDEX idx_user_item_unique ON user_item(user_id, item_id);
+CREATE INDEX idx_user_item_user ON user_item(user_id);

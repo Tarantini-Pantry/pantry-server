@@ -4,9 +4,11 @@ data class Weight(val value: Double, val measurement: Measurement)
 enum class Measurement {
    GRAM, KILOGRAM,
 }
-
 data class UserItem(
-   val user: User,
    val item: Item,
-   val weight: Weight,
+   val weight: Weight
+)
+data class CreateUserItemRequest (
+   val itemId: Int,
+   val weight: Weight
 )

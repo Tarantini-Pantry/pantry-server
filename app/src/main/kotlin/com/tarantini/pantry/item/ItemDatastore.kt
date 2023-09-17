@@ -14,7 +14,7 @@ class ItemDatastore(ds: DataSource) {
 
    private val mapper = RowMapper { rs, _ ->
       Item(
-         name = rs.getString(Columns.NAME.label),
+         name = rs.getString(Columns.NAME),
          emptyList()
       )
    }
@@ -22,7 +22,7 @@ class ItemDatastore(ds: DataSource) {
    suspend fun insert(item: Item): Result<Int> {
      return template.update(
          insertAllInto(ItemTable),
-         listOf(item.name, emptyList<String>())
+         listOf(item.name)
       )
    }
 

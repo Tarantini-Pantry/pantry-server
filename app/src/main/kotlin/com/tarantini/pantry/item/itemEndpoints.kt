@@ -13,7 +13,7 @@ fun Route.itemEndpoints(service: ItemService) {
       withRequest<CreateItemRequest> {request ->
          service.create(request.name, request.tags).fold(
             { result -> call.respond(HttpStatusCode.OK, result) },
-            { call.respond(HttpStatusCode.InternalServerError) }
+            { call.respond(HttpStatusCode.InternalServerError, it) }
          )
       }
    }

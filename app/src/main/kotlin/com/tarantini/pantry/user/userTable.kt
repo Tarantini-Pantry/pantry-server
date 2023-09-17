@@ -3,16 +3,15 @@ package com.tarantini.pantry.user
 import com.tarantini.pantry.datastore.Table
 
 object UserTable: Table {
-   enum class Columns(val label: String) {
-      USERNAME("username"),
-      HASHED_PASSWORD("hashed_password"),
-      EMAIL("email");
+   object Columns {
+      const val ID = "id"
+      const val USERNAME = "username"
+      const val HASHED_PASSWORD = "hashed_password"
+      const val EMAIL = "email"
    }
 
-   override val tableName: String
+   override val name: String
       get() = "pantry_user"
-
-   override fun getColumns(): List<String> {
-      return Columns.values().map { it.label }.toList()
-   }
+   override val columns: List<String>
+      get() = listOf(Columns.USERNAME, Columns.HASHED_PASSWORD, Columns.EMAIL)
 }

@@ -3,15 +3,15 @@ package com.tarantini.pantry.item
 import com.tarantini.pantry.datastore.Table
 
 object ItemTable: Table {
-   enum class Columns(val label: String) {
-      NAME("name"),
-      TYPE("type"),
+   object Columns {
+      const val ID = "id"
+      const val NAME = "name"
    }
-
-   override val tableName: String
+   override val name: String
       get() = "item"
+   override val columns: List<String>
+      get() = listOf(
+         Columns.NAME
+      )
 
-   override fun getColumns(): List<String> {
-      return Columns.values().map { it.label }.toList()
-   }
 }

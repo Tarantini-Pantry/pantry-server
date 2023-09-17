@@ -14,9 +14,9 @@ class UserDatastore(ds: DataSource) {
 
    private val mapper = RowMapper { rs, _ ->
       User(
-         username = rs.getString(Columns.USERNAME.label),
-         hashedPassword = rs.getString(Columns.HASHED_PASSWORD.label),
-         email = rs.getString(Columns.EMAIL.label),
+         username = rs.getString(Columns.USERNAME),
+         hashedPassword = rs.getString(Columns.HASHED_PASSWORD),
+         email = rs.getString(Columns.EMAIL),
       )
    }
 

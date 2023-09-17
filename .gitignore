@@ -35,3 +35,6 @@ application-local.yml
 
 documentation/site/
 node_modules/
+
+.DS_Store
+app/.DS_Store

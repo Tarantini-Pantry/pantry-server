@@ -1,13 +1,19 @@
 package com.tarantini.pantry.datastore
 
 interface Table {
-   val tableName: String
-   fun getColumns(): List<String>
+   val name: String
+   val columns: List<String>
 }
 
-fun selectAll(table: Table) = "SELECT * FROM ${table.tableName}"
-fun selectAllWhere(table: Table, vararg params: Pair<String, String>) =
-   "${selectAll(table)} WHERE ${params.map { "${it.first} = ${it.second}" }.joinToString(" AND ")}"
+interface Projection {
+   val queryString: String
+   val values: List<String>
+}
 
+fun Table.qualifiedColumn(column: String): String = "$name.$column"
+
+fun selectAll(table: Table) = "SELECT * FROM ${table.name}"
+fun selectAllWhere(table: Table, vararg params: Pair<String, String>) =
+   "${selectAll(table)} WHERE ${params.joinToString(" AND ") { "${it.first} = ${it.second}" }}"
 fun insertAllInto(table: Table) =
-   "INSERT INTO ${table.tableName} (${table.getColumns().joinToString(",")}) values (${table.getColumns().joinToString(separator = ",") { "?" }})"
+   "INSERT INTO ${table.name} (${table.columns.joinToString(",")}) values (${table.columns.joinToString(separator = ",") { "?" }})"
