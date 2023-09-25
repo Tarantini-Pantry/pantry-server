@@ -9,6 +9,9 @@ object ItemTable: Table {
    }
    override val name: String
       get() = "item"
+   override val idColumn: String
+      get() = Columns.ID
+
    override val columns: List<String>
       get() = listOf(
          Columns.NAME

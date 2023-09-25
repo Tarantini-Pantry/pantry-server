@@ -46,6 +46,6 @@ fun livenessProbes() = HealthCheckRegistry(Dispatchers.Default) {
  */
 fun readinessProbes() = HealthCheckRegistry(Dispatchers.Default) {
    register(ThreadDeadlockHealthCheck(2), 15.seconds)
-   register(ThreadStateHealthCheck(Thread.State.TIMED_WAITING, 50), 15.seconds)
-   register(ThreadStateHealthCheck(Thread.State.WAITING, 50), 15.seconds)
+   register("time-waiting", ThreadStateHealthCheck(Thread.State.TIMED_WAITING, 50), 15.seconds)
+   register("waiting", ThreadStateHealthCheck(Thread.State.WAITING, 50), 15.seconds)
 }

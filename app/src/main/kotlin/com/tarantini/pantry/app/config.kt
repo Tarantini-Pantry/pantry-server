@@ -2,6 +2,7 @@ package com.tarantini.pantry.app
 
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
+import com.sksamuel.hoplite.aws.AwsSecretsManagerPreprocessor
 import com.sksamuel.hoplite.env.Environment
 import com.sksamuel.hoplite.secrets.PrefixObfuscator
 import com.tarantini.pantry.datastore.DatabaseConfig
@@ -16,7 +17,7 @@ import kotlin.time.Duration
  * @return the constructed [Config] object.
  */
 fun createConfig(env: Environment) = ConfigLoaderBuilder.default()
-   // .addPreprocessor(AwsSecretsManagerPreprocessor(report = true)) // uncomment to enable aws secrets processing
+    .addPreprocessor(AwsSecretsManagerPreprocessor(report = true)) // uncomment to enable aws secrets processing
    // .addPreprocessor(GcpSecretManagerPreprocessor(report = true)) // uncomment to enable gcp secrets processing
    // .addPreprocessor(VaultPreprocessor(report = true)) // uncomment to enable hashicorp vault secrets processing
    // .addPreprocessor(AzureKeyVaultPreprocessor(report = true)) // uncomment to enable azure secrets processing

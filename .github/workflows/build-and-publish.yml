@@ -18,7 +18,7 @@ jobs:
             with:
                distribution: "temurin"
                java-version: "17"
-         -  name: Executre Gradle Build
+         -  name: Execute Gradle Build
             uses: gradle/gradle-build-action@v2
             with:
                arguments: shadowJar -Pversion=${{ github.event.inputs.version }}
@@ -31,5 +31,11 @@ jobs:
                REMOTE_USER: ${{ secrets.USERNAME }}
                TARGET: ${{ secrets.TARGET_DIR }}
                SCRIPT_AFTER: |
-                  runAppHeadless ${{ github.events.inputs.version }}
-                  nohup java -jar /home/ubuntu/apps/pantry-server-${{ github.event.inputs.version }}.jar &
+                  sudo systemctl stop webapp
+                  sudo rm /home/ubuntu/apps/pantry-server-$LAST_VERSION.jar
+                  sudo sed -i 's/"VERSION=.*"/"VERSION=${{ github.event.inputs.version }}"/g' /etc/systemd/system/webapp.service
+                  echo "export ENV_NAME=prod" >> /home/ubuntu/.profile
+                  export LAST_VERSION=${{ github.event.inputs.version }}
+                  sudo systemctl daemon-reload
+                  sudo systemctl start webapp
+

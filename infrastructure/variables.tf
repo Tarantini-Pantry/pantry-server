@@ -3,15 +3,7 @@ variable "aws_region" {
 }
 
 variable "vpc_cidr_block" {
-   default     = "10.0.0.0/16"
-}
-
-variable "ec2_ami" {
-   default     = "ami-024e6efaf93d85776"
-}
-
-variable "ec2_keypair" {
-   default = "pantry_keypair"
+   default = "10.0.0.0/16"
 }
 
 variable "subnet_configuration" {
@@ -37,6 +29,16 @@ variable "subnet_configuration" {
    }
 }
 
+variable "db_username" {
+   type      = string
+   sensitive = true
+}
+
+variable "db_password" {
+   type      = string
+   sensitive = true
+}
+
 variable "settings" {
    default = {
       database = {
@@ -51,21 +53,8 @@ variable "settings" {
       "web-app" = {
          count         = 1,
          instance_type = "t2.micro"
+         ami           = "ami-0dabbb52b12fcfca9"
+         key_pair      = "pantry_keypair"
       }
    }
-}
-
-variable "my_ip" {
-   type        = string
-   sensitive   = true
-}
-
-variable "db_username" {
-   type        = string
-   sensitive   = true
-}
-
-variable "db_password" {
-   type        = string
-   sensitive   = true
 }

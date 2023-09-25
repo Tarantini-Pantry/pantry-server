@@ -29,4 +29,12 @@ class ItemDatastore(ds: DataSource) {
    suspend fun findAll(): Result<List<Item>> {
       return template.queryForList(selectAll(ItemTable), mapper)
    }
+
+   suspend fun delete(itemId: Int): Result<Int> {
+      return template.delete(ItemTable, itemId)
+   }
+
+   suspend fun deleteAll(): Result<Int> {
+      return template.delete(ItemTable)
+   }
 }

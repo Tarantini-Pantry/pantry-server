@@ -12,6 +12,8 @@ object UserTable: Table {
 
    override val name: String
       get() = "pantry_user"
+   override val idColumn: String
+      get() = Columns.ID
    override val columns: List<String>
       get() = listOf(Columns.USERNAME, Columns.HASHED_PASSWORD, Columns.EMAIL)
 }

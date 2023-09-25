@@ -2,6 +2,7 @@ package com.tarantini.pantry.datastore
 
 interface Table {
    val name: String
+   val idColumn: String
    val columns: List<String>
 }
 

@@ -21,7 +21,7 @@ data "aws_availability_zones" "available" {
 resource "aws_vpc" "pantry_vpc" {
    cidr_block           = var.vpc_cidr_block
    enable_dns_hostnames = true
-   enable_dns_support = true
+   enable_dns_support   = true
 
    tags = {
       Name = "pantry_vpc"
@@ -97,8 +97,8 @@ resource "aws_security_group" "pantry_web_sg" {
 
    ingress {
       description = "Allow all traffic through HTTP"
-      from_port   = "80"
-      to_port     = "80"
+      from_port   = "8080"
+      to_port     = "8080"
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
    }
@@ -152,6 +152,24 @@ resource "aws_db_subnet_group" "pantry_db_subnet_group" {
 }
 
 // Database Creation
+resource "aws_secretsmanager_secret" "db_username_sm" {
+   name = "database_username_secret"
+}
+
+resource "aws_secretsmanager_secret" "db_password_sm" {
+   name = "database_password_secret"
+}
+
+resource "aws_secretsmanager_secret_version" "db_username_sv" {
+   secret_id     = aws_secretsmanager_secret.db_username_sm.id
+   secret_string = var.db_username
+}
+
+resource "aws_secretsmanager_secret_version" "db_password_sv" {
+   secret_id     = aws_secretsmanager_secret.db_password_sm.id
+   secret_string = var.db_password
+}
+
 resource "aws_db_instance" "pantry_database" {
    allocated_storage      = var.settings.database.allocated_storage
    max_allocated_storage  = var.settings.database.max_allocated_storage
@@ -159,8 +177,8 @@ resource "aws_db_instance" "pantry_database" {
    engine_version         = var.settings.database.engine_version
    instance_class         = var.settings.database.instance_class
    db_name                = var.settings.database.db_name
-   username               = var.db_username
-   password               = var.db_password
+   username               = aws_secretsmanager_secret_version.db_username_sv.secret_string
+   password               = aws_secretsmanager_secret_version.db_password_sv.secret_string
    db_subnet_group_name   = aws_db_subnet_group.pantry_db_subnet_group.id
    vpc_security_group_ids = [aws_security_group.pantry_db_sg.id]
    skip_final_snapshot    = var.settings.database.skip_final_snapshot
@@ -170,18 +188,13 @@ resource "aws_db_instance" "pantry_database" {
 resource "aws_instance" "pantry_server" {
    count = var.settings.web-app.count
 
-   ami                    = var.ec2_ami
-   instance_type          = var.settings.web-app.instance_type
-   subnet_id              = aws_subnet.pantry_public_subnet[count.index].id
-   key_name               = var.ec2_keypair
-   vpc_security_group_ids = [aws_security_group.pantry_web_sg.id]
-   user_data = <<EOF
-      #!/bin/bash
-      mkdir apps
-      echo "\nexport ENV_NAME=prod" >> ~/.profile
-      echo "\nrunAppHeadless() {nohup java -jar /home/ubuntu/apps/pantry-server-'$1'.jar &}
-      echo "\nrunApp() {java -jar /home/ubuntu/apps/pantry-server-'$1'.jar}
-   EOF
+   ami                         = var.settings.web-app.ami
+   instance_type               = var.settings.web-app.instance_type
+   subnet_id                   = aws_subnet.pantry_public_subnet[count.index].id
+   key_name                    = var.settings.web-app.key_pair
+   vpc_security_group_ids      = [aws_security_group.pantry_web_sg.id]
+   user_data_replace_on_change = true
+
    tags = {
       Name = "pantry_server_${count.index}"
    }
@@ -196,3 +209,16 @@ resource "aws_eip" "pantry_web_eip" {
       Name = "pantry_web_eip"
    }
 }
+
+resource "aws_route53_zone" "tarantini_zone" {
+   name = "tarantini.us"
+}
+
+resource "aws_route53_record" "pantry_cname_record" {
+   type    = "A"
+   name    = "pantry"
+   ttl     = "86400"
+   zone_id = aws_route53_zone.tarantini_zone.id
+   records = [aws_eip.pantry_web_eip[0].public_ip]
+}
+

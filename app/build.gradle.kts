@@ -17,6 +17,7 @@ dependencies {
 
    // services
    api(rootProject.deps.bundles.ktor.server)
+   api(rootProject.deps.ktor.server.cors)
    api(rootProject.deps.ktor.serialization.jackson)
 
    // datastore

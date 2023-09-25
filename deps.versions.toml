@@ -1,11 +1,11 @@
 [versions]
-kotlin = "1.8.21"
-kotlinxCoroutines = "1.6.4"
-kotest = "5.6.1"
-ktor = "2.3.0"
+kotlin = "1.9.10"
+kotlinxCoroutines = "1.7.3"
+kotest = "5.7.2"
+ktor = "2.3.4"
 jackson = "2.14.2"
-hoplite = "2.7.4"
-cohort = "1.7.3"
+hoplite = "2.7.5"
+cohort = "2.2.1"
 micrometer = "1.10.6"
 jbcrypt = "0.4"
 
@@ -54,7 +54,6 @@ hoplite-micrometer-datadog = { module = "com.sksamuel.hoplite:hoplite-micrometer
 cohort-core = { module = "com.sksamuel.cohort:cohort-core", version.ref = "cohort" }
 cohort-kafka = { module = "com.sksamuel.cohort:cohort-kafka", version.ref = "cohort" }
 cohort-hikari = { module = "com.sksamuel.cohort:cohort-hikari", version.ref = "cohort" }
-cohort-ktor2 = { module = "com.sksamuel.cohort:cohort-ktor2", version.ref = "cohort" }
 cohort-micrometer = { module = "com.sksamuel.cohort:cohort-micrometer", version.ref = "cohort" }
 
 micrometer-core = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
@@ -72,7 +71,6 @@ cohort = [
    "cohort-core",
    "cohort-kafka",
    "cohort-hikari",
-   "cohort-ktor2",
    "cohort-micrometer"
 ]
 hoplite = [

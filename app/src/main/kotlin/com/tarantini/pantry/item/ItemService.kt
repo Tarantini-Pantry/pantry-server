@@ -12,4 +12,12 @@ class ItemService(private val datastore: ItemDatastore) {
    suspend fun findAll(): Result<List<Item>> {
       return datastore.findAll()
    }
+
+   suspend fun deleteItem(itemId: Int): Result<Int> {
+      return datastore.delete(itemId)
+   }
+
+   suspend fun deleteAllItems(): Result<Int> {
+      return datastore.deleteAll()
+   }
 }

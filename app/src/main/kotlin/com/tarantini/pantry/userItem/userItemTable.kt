@@ -10,9 +10,10 @@ object UserItemTable: Table {
       const val VALUE = "value"
       const val MEASUREMENT = "measurement"
    }
-
    override val name: String
       get() = "user_item"
+   override val idColumn: String
+      get() = Columns.ID
    override val columns: List<String>
       get() = listOf(Columns.USER_ID, Columns.ITEM_ID, Columns.VALUE, Columns.MEASUREMENT)
 }

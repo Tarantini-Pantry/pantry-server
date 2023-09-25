@@ -33,4 +33,16 @@ class JdbcCoroutineTemplate(ds: DataSource) {
          template.update(sql, *args.toTypedArray())
       }
    }
+
+   suspend fun delete(table: Table): Result<Int> = runCatching {
+      withContext(Dispatchers.IO) {
+         template.update("DELETE FROM ${table.name}")
+      }
+   }
+
+   suspend fun delete(table: Table, itemId: Int): Result<Int> = runCatching {
+      withContext(Dispatchers.IO) {
+         template.update("DELETE FROM ${table.name} WHERE ${table.idColumn} = ${itemId}")
+      }
+   }
 }

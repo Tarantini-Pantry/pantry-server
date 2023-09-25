@@ -8,7 +8,6 @@ import com.tarantini.pantry.user.UserDatastore
 import com.tarantini.pantry.user.UserService
 import com.tarantini.pantry.userItem.UserItemDatastore
 import com.zaxxer.hikari.HikariDataSource
-import io.micrometer.core.instrument.MeterRegistry
 
 /**
  * Creates all the dependencies used by this service wrapped in a [Dependencies] object.
@@ -19,8 +18,8 @@ import io.micrometer.core.instrument.MeterRegistry
  */
 fun createDependencies(env: Environment, serviceName: String, config: Config): Dependencies {
 
-   val registry = createDatadogMeterRegistry(config.datadog, env, serviceName)
-   val ds = createDataSource(config.db, registry)
+//   val registry = createDatadogMeterRegistry(config.datadog, env, serviceName)
+   val ds = createDataSource(config.db, null)
 
    val itemDatastore = ItemDatastore(ds)
    val itemService = ItemService(itemDatastore)
@@ -30,7 +29,7 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
    val userService = UserService(userDatastore, userItemDatastore)
 
    return Dependencies(
-      registry,
+//      registry,
       ds,
       itemDatastore,
       itemService,
@@ -47,7 +46,7 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
  * called ApplicationContext.
  */
 data class Dependencies(
-   val registry: MeterRegistry,
+//   val registry: MeterRegistry,
    val ds: HikariDataSource,
    val itemDatastore: ItemDatastore,
    val itemService: ItemService,
