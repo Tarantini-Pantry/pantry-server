@@ -1,0 +1,21 @@
+name: Run Frontend Tests
+
+on:
+   push:
+      branches:
+         - main
+
+jobs:
+   build:
+      runs-on: ubuntu-latest
+      defaults:
+         run:
+            working-directory: ./frontend
+
+      steps:
+         -  uses: actions/checkout@v3
+         -  uses: actions/setup-node@v3
+            with:
+               node-version: '16.20.2'
+         -  run: yarn install
+         -  run: yarn run test
