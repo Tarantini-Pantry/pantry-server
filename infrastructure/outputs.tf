@@ -21,3 +21,8 @@ output "database_port" {
    description = "The port of the database"
    value       = aws_db_instance.pantry_database.port
 }
+
+output "bucket_name" {
+   description = "The bucket name of the website"
+   value       = module.s3-static-website.website_bucket_id
+}
