@@ -1,3 +1,7 @@
 port: 8080
 quiet-period: "5s"
 shutdown-timeout: "20s"
+
+oauth:
+   client-id: "secretsmanager://GOOGLE_CLIENT_ID"
+   client-secret: "secretsmanager://GOOGLE_CLIENT_SECRET"

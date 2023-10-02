@@ -50,7 +50,13 @@ fun createConfig(env: Environment) = ConfigLoaderBuilder.default()
 data class Config(
    val port: Int,
    val quietPeriod: Duration,
+   val oauth: OAuthConfig,
    val shutdownTimeout: Duration,
    val datadog: DatadogConfig,
    val db: DatabaseConfig,
+)
+
+data class OAuthConfig(
+   val clientId: String,
+   val clientSecret: String
 )

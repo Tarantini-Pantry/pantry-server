@@ -47,7 +47,12 @@ tasks {
 
 
 dependencies {
-   // datastore
+   implementation("io.ktor:ktor-server-auth-jvm:2.3.4")
+   implementation("io.ktor:ktor-server-core-jvm:2.3.4")
+   implementation("io.ktor:ktor-client-core-jvm:2.3.4")
+   implementation("io.ktor:ktor-client-apache-jvm:2.3.4")
+   implementation("io.ktor:ktor-client-okhttp-jvm:2.3.4")
+   implementation("io.ktor:ktor-server-sessions-jvm:2.3.4")// datastore
    testFixturesImplementation(rootProject.deps.kotest.extensions.testcontainers)
    testFixturesImplementation(rootProject.deps.testcontainers.postgresql)
 

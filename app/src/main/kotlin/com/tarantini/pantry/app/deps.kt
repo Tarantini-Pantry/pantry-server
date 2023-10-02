@@ -8,6 +8,8 @@ import com.tarantini.pantry.user.UserDatastore
 import com.tarantini.pantry.user.UserService
 import com.tarantini.pantry.userItem.UserItemDatastore
 import com.zaxxer.hikari.HikariDataSource
+import io.ktor.client.*
+import io.ktor.client.engine.okhttp.*
 
 /**
  * Creates all the dependencies used by this service wrapped in a [Dependencies] object.
@@ -28,9 +30,18 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
    val userItemDatastore = UserItemDatastore(ds)
    val userService = UserService(userDatastore, userItemDatastore)
 
+   val httpClient =  HttpClient(OkHttp) {
+      engine {
+         config {
+            followRedirects(true)
+         }
+      }
+   }
+
    return Dependencies(
 //      registry,
       ds,
+      httpClient,
       itemDatastore,
       itemService,
       userDatastore,
@@ -48,6 +59,7 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
 data class Dependencies(
 //   val registry: MeterRegistry,
    val ds: HikariDataSource,
+   val httpClient: HttpClient,
    val itemDatastore: ItemDatastore,
    val itemService: ItemService,
    val userDatastore: UserDatastore,

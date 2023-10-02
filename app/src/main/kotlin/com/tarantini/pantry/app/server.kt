@@ -1,6 +1,7 @@
 package com.tarantini.pantry.app
 
 import com.sksamuel.cohort.Cohort
+import com.tarantini.pantry.authentication.UserSession
 import createRouting
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
@@ -11,6 +12,7 @@ import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger { }
@@ -46,6 +48,11 @@ fun createNettyServer(config: Config, dependencies: Dependencies): NettyApplicat
          allowHeader(HttpHeaders.Referrer)
          allowHeader(HttpHeaders.Accept)
       }
+      install(Sessions) {
+         cookie<UserSession>("UserSession") {
+            cookie.extensions["SameSite"] = "lax"
+         }
+      }
       // healthchecks and actuator endpoints
       install(Cohort) {
          gc = true
@@ -57,6 +64,7 @@ fun createNettyServer(config: Config, dependencies: Dependencies): NettyApplicat
          healthcheck("/liveness", livenessProbes())
          healthcheck("/readiness", readinessProbes())
       }
+      createAuthentication(config, dependencies)
       createRouting(dependencies)
    }
 
