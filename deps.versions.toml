@@ -8,6 +8,7 @@ hoplite = "2.7.5"
 cohort = "2.2.1"
 micrometer = "1.10.6"
 jbcrypt = "0.4"
+google = "2.2.0"
 
 [libraries]
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
@@ -16,7 +17,8 @@ kotlinx-coroutines-jdk8 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-j
 ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
 
-ktor-server-auth = { module = "io.ktos:ktor-server-auth", version.ref = "ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-compression = { module = "io.ktor:ktor-server-compression", version.ref = "ktor" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
@@ -59,6 +61,7 @@ cohort-micrometer = { module = "com.sksamuel.cohort:cohort-micrometer", version.
 
 micrometer-core = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
 micrometer-registry-datadog = { module = "io.micrometer:micrometer-registry-datadog", version.ref = "micrometer" }
+google-login = { module = "com.google.api-client:google-api-client", version.ref = "google" }
 
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 
@@ -106,6 +109,8 @@ jackson = [
 ]
 ktor-server = [
    "ktor-server-netty",
+   "ktor-server-auth",
+   "ktor-server-auth-jwt",
    "ktor-server-compression",
    "ktor-server-content-negotiation",
    "ktor-server-metrics-micrometer",

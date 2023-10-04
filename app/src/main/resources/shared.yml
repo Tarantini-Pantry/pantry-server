@@ -2,6 +2,11 @@ port: 8080
 quiet-period: "5s"
 shutdown-timeout: "20s"
 
-oauth:
-   client-id: "secretsmanager://GOOGLE_CLIENT_ID"
-   client-secret: "secretsmanager://GOOGLE_CLIENT_SECRET"
+sessionConfig:
+   encryptionKey: "00112233445566778899aabbccddeeff"
+   signingKey: "6819b57a326945c1968f45236589"
+
+google-auth:
+   issuer: "https://accounts.google.com"
+   audience: "secretsmanager://GOOGLE_CLIENT_ID"
+   certificateUrl: "https://www.googleapis.com/oauth2/v3/certs"

@@ -1,11 +1,13 @@
 package com.tarantini.pantry.endpoints
 
+import com.tarantini.pantry.authentication.UserSession
+import com.tarantini.pantry.authentication.NoUserSessionException
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import io.ktor.server.sessions.*
 import io.ktor.server.util.*
-import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import io.ktor.util.reflect.*
 import java.util.*
@@ -39,6 +41,15 @@ suspend inline fun <reified T: Any> PipelineContext<Unit, ApplicationCall>.withQ
       )
    }
 }
+
+suspend inline fun PipelineContext<Unit, ApplicationCall>.withUserSession(f: (UserSession) -> Unit) {
+   runCatching { call.sessions.get<UserSession>() ?: throw NoUserSessionException() }
+      .fold(
+         { f(it) },
+         { call.respond(HttpStatusCode.Unauthorized, it) }
+      )
+}
+
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> String.coerce(typeInfo: TypeInfo): Result<T> = runCatching {
    when (typeInfo.reifiedType) {

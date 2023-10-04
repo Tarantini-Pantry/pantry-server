@@ -34,6 +34,12 @@ class JdbcCoroutineTemplate(ds: DataSource) {
       }
    }
 
+   suspend fun exists(sql: String): Result<Boolean> = runCatching {
+      withContext(Dispatchers.IO) {
+         template.queryForObject(sql, Boolean::class.java)
+      }
+   }
+
    suspend fun delete(table: Table): Result<Int> = runCatching {
       withContext(Dispatchers.IO) {
          template.update("DELETE FROM ${table.name}")

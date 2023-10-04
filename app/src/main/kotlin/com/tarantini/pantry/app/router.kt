@@ -7,7 +7,7 @@ import io.ktor.server.routing.*
 
 fun Application.createRouting(dependencies: Dependencies) {
    routing {
-      authenticationRoutes(dependencies.httpClient)
+      authenticationRoutes(dependencies.userService)
       itemEndpoints(dependencies.itemService)
       userEndpoints(dependencies.userService)
    }

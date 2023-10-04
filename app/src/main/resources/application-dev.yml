@@ -1,6 +1,7 @@
 datadog:
-   enabled: true
-   api-key: "secretsmanager://dev-template-datadog-api-key"
+   enabled: false
+   api-key: ""
+#   api-key: "secretsmanager://dev-template-datadog-api-key"
 
 db:
    url: jdbc:postgresql://hostname:5432/databasename

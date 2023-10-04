@@ -50,13 +50,20 @@ fun createConfig(env: Environment) = ConfigLoaderBuilder.default()
 data class Config(
    val port: Int,
    val quietPeriod: Duration,
-   val oauth: OAuthConfig,
+   val googleAuth: GoogleAuth,
+   val sessionConfig: SessionConfig,
    val shutdownTimeout: Duration,
    val datadog: DatadogConfig,
    val db: DatabaseConfig,
 )
 
-data class OAuthConfig(
-   val clientId: String,
-   val clientSecret: String
+data class SessionConfig (
+   val encryptionKey: String,
+   val signingKey: String
+)
+
+data class GoogleAuth (
+   val audience: String,
+   val issuer: String,
+   val certificateUrl: String
 )

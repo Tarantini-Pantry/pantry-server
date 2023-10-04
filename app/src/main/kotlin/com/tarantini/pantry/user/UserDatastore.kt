@@ -15,7 +15,7 @@ class UserDatastore(ds: DataSource) {
    private val mapper = RowMapper { rs, _ ->
       User(
          username = rs.getString(Columns.USERNAME),
-         hashedPassword = rs.getString(Columns.HASHED_PASSWORD),
+         userImageUrl = rs.getString(Columns.USER_IMAGE_URL),
          email = rs.getString(Columns.EMAIL),
       )
    }
@@ -23,11 +23,17 @@ class UserDatastore(ds: DataSource) {
    suspend fun insert(user: User): Result<Int> {
       return template.update(
          insertAllInto(UserTable),
-         listOf(user.username, user.hashedPassword, user.email)
+         listOf(user.username, user.userImageUrl, user.email)
       )
    }
 
    suspend fun findAll(): Result<List<User>> {
       return template.queryForList(selectAll(UserTable), mapper)
+   }
+
+   suspend fun existsByEmail(email: String): Result<Int?> {
+      return template.query(
+         "SELECT id FROM ${UserTable.name} WHERE email = '$email'",
+         RowMapper { rs, _ -> rs.getInt(Columns.ID) })
    }
 }

@@ -6,7 +6,7 @@ object UserTable: Table {
    object Columns {
       const val ID = "id"
       const val USERNAME = "username"
-      const val HASHED_PASSWORD = "hashed_password"
+      const val USER_IMAGE_URL = "user_image_url"
       const val EMAIL = "email"
    }
 
@@ -15,5 +15,5 @@ object UserTable: Table {
    override val idColumn: String
       get() = Columns.ID
    override val columns: List<String>
-      get() = listOf(Columns.USERNAME, Columns.HASHED_PASSWORD, Columns.EMAIL)
+      get() = listOf(Columns.USERNAME, Columns.USER_IMAGE_URL, Columns.EMAIL)
 }

@@ -2,7 +2,7 @@ CREATE TABLE pantry_user
 (
    id              SERIAL PRIMARY KEY,
    username        VARCHAR(255) NOT NULL,
-   hashed_password TEXT NOT NULL,
+   user_image_url  VARCHAR(255) NOT NULL,
    email           VARCHAR(255) NOT NULL
 );
 
@@ -34,5 +34,6 @@ CREATE TABLE user_item
    value       DOUBLE PRECISION NOT NULL
 );
 
+CREATE UNIQUE INDEX idx_user_email_unique ON pantry_user(email);
 CREATE UNIQUE INDEX idx_user_item_unique ON user_item(user_id, item_id);
 CREATE INDEX idx_user_item_user ON user_item(user_id);

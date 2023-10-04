@@ -1,5 +1,5 @@
 datadog:
-   enabled: true
+   enabled: false
    api-key: ""
    #api-key: "secretsmanager://prod-template-datadog-api-key"
 
